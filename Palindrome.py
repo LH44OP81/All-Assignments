@@ -1,20 +1,19 @@
-s = input().strip()
-stack = []
-queue = []
+from collections import deque
+import re
 
-for char in s:
-    stack.append(char)
-    queue.append(char)
+def is_palindrome(s):
+    # Normalize: remove non-alphanumeric characters and convert to lowercase
+    s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
 
-is_palindrome = True
-while stack and queue:
-    stack_char = stack.pop()
-    queue_char = queue.pop(0)
-    if stack_char != queue_char:
-        is_palindrome = False
-        break
+    stack = []
+    queue = deque()
 
-if is_palindrome:
-    print(f"The word, {s}, is a palindrome.")
-else:
-    print(f"The word, {s}, is not a palindrome.")
+    for char in s:
+        stack.append(char)
+        queue.append(char)
+
+    for _ in range(len(s) // 2):
+        if stack.pop() != queue.popleft():
+            return False
+
+    return True
